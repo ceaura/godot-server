@@ -11,6 +11,10 @@ config_version=5
 [application]
 
 config/name="Essaie de connexion TCP"
-run/main_scene="res://Multi.tscn"
-config/features=PackedStringArray("4.0", "Forward Plus")
+run/main_scene="res://Main.tscn"
+config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[dotnet]
+
+project/assembly_name="sae 6"
