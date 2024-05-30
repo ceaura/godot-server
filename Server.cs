@@ -17,7 +17,7 @@ public partial class Server : Node
 
 	public override void _EnterTree()
 	{
-		GD.Print("hello serve");
+		GD.Print("Server started");
 		StartTcpServer();
 		StartUdpServer();
 	}
@@ -25,13 +25,16 @@ public partial class Server : Node
 	public override void _Process(double delta)
 	{
 		// Handle TCP clients
-		foreach (var client in _tcpClients)
+		lock (_tcpClients)
 		{
-			if (client.Available > 0)
+			foreach (var client in _tcpClients)
 			{
-				var buffer = new byte[client.Available];
-				client.GetStream().Read(buffer, 0, buffer.Length);
-				OnTcpPacketReceived(client, buffer);
+				if (client.Available > 0)
+				{
+					var buffer = new byte[client.Available];
+					client.GetStream().Read(buffer, 0, buffer.Length);
+					OnTcpPacketReceived(client, buffer);
+				}
 			}
 		}
 	}
@@ -82,17 +85,23 @@ public partial class Server : Node
 	{
 		string message = Encoding.UTF8.GetString(data);
 		GD.Print("Received TCP message: ", message);
-		ProcessCommand(message);
+		string response = ProcessCommand(message);
+		// Send the response back to the client
+		byte[] responseData = Encoding.UTF8.GetBytes(response);
+		client.GetStream().Write(responseData, 0, responseData.Length);
 	}
 
 	private void OnUdpPacketReceived(IPEndPoint remoteEP, byte[] data)
 	{
 		string message = Encoding.UTF8.GetString(data);
 		GD.Print("Received UDP message: ", message);
-		ProcessCommand(message);
+		string response = ProcessCommand(message);
+		// Send the response back to the client
+		byte[] responseData = Encoding.UTF8.GetBytes(response);
+		_udpClient.Send(responseData, responseData.Length, remoteEP);
 	}
 
-	private void ProcessCommand(string command)
+	private string ProcessCommand(string command)
 	{
 		// Parse and handle the command
 		var commands = command.Split('#');
@@ -105,34 +114,36 @@ public partial class Server : Node
 			switch (key)
 			{
 				case "NAME":
-					HandleNameCommand(args);
-					break;
+					return HandleNameCommand(args);
 				case "COL":
-					HandleColorCommand(args);
-					break;
+					return HandleColorCommand(args);
 				// Add other command handlers here
 				default:
 					GD.Print("Unknown command: ", key);
-					break;
+					return "Unknown command: " + key;
 			}
 		}
+		return "Command processed";
 	}
 
-	private void HandleNameCommand(string[] args)
+	private string HandleNameCommand(string[] args)
 	{
 		if (args.Length > 0)
 		{
 			var playerName = args[0];
 			GD.Print("Change player name to: ", playerName);
+			return "Name changed to: " + playerName;
 		}
+		return "Invalid NAME command";
 	}
 
-	private void HandleColorCommand(string[] args)
+	private string HandleColorCommand(string[] args)
 	{
 		if (args.Length == 1)
 		{
 			var color = args[0];
 			GD.Print("Change player color to: ", color);
+			return "Color changed to: " + color;
 		}
 		else if (args.Length == 3)
 		{
@@ -140,6 +151,8 @@ public partial class Server : Node
 			var g = args[1];
 			var b = args[2];
 			GD.Print($"Change player color to RGB: ({r}, {g}, {b})");
+			return $"Color changed to RGB: ({r}, {g}, {b})";
 		}
+		return "Invalid COL command";
 	}
 }
