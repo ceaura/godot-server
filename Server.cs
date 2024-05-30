@@ -15,11 +15,15 @@ public partial class Server : Node
 	private UdpClient _udpClient;
 	private List<TcpClient> _tcpClients = new List<TcpClient>();
 
+	private Node2D spaceship;
+
 	public override void _EnterTree()
 	{
-		GD.Print("Server started");
 		StartTcpServer();
 		StartUdpServer();
+		spaceship = GetTree().Root.GetNode<Node2D>("Node2D").GetNode<Node2D>("Spaceship");
+		GD.Print("Server started", GetTree().Root.GetNode<Node2D>("Node2D").GetNode<Node2D>("Spaceship").Name);
+		GD.Print("Server started");
 	}
 
 	public override void _Process(double delta)
@@ -117,6 +121,10 @@ public partial class Server : Node
 					return HandleNameCommand(args);
 				case "COL":
 					return HandleColorCommand(args);
+				case "MotL":
+					return HandleMotorLeftCommand(args);
+				case "MotR":
+					return HandleMotorRightCommand(args);
 				// Add other command handlers here
 				default:
 					GD.Print("Unknown command: ", key);
@@ -154,5 +162,29 @@ public partial class Server : Node
 			return $"Color changed to RGB: ({r}, {g}, {b})";
 		}
 		return "Invalid COL command";
+	}
+
+	private string HandleMotorLeftCommand(string[] args)
+	{
+		if (args.Length == 1)
+		{
+			var value = args[0].ToFloat();
+			spaceship.Call("set_motor_left", value);
+			GD.Print("Set motor left to: ", value);
+			return "Motor left set to: " + value;
+		}
+		return "Invalid MotL command";
+	}
+
+	private string HandleMotorRightCommand(string[] args)
+	{
+		if (args.Length == 1)
+		{
+			var value = args[0].ToFloat();
+			spaceship.Call("set_motor_right", value);
+			GD.Print("Set motor right to: ", value);
+			return "Motor right set to: " + value;
+		}
+		return "Invalid MotR command";
 	}
 }
