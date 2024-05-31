@@ -19,6 +19,9 @@ public partial class Server : Node
 
 	public override void _EnterTree()
 	{
+		string localIP = GetLocalIPAddress();
+		GD.Print("Local IP is : ", localIP);
+		
 		StartTcpServer();
 		StartUdpServer();
 		spaceship = GetTree().Root.GetNode<Node2D>("Node2D").GetNode<Node2D>("Spaceship");
@@ -43,15 +46,31 @@ public partial class Server : Node
 		}
 	}
 
-	private void StartTcpServer()
-	{
-		_tcpListener = new TcpListener(IPAddress.Any, _tcpPort);
-		_tcpListener.Start();
-		GD.Print("TCP Server listening on port ", _tcpPort);
+private void StartTcpServer()
+{
+	_tcpListener = new TcpListener(IPAddress.Any, _tcpPort);
+	_tcpListener.Start();
 
-		Thread tcpAcceptThread = new Thread(AcceptTcpClients);
-		tcpAcceptThread.Start();
+	GD.Print("TCP Server listening on ", _tcpPort);
+
+	Thread tcpAcceptThread = new Thread(AcceptTcpClients);
+	tcpAcceptThread.Start();
+}
+
+// Method to retrieve the local IP address
+private string GetLocalIPAddress()
+{
+	var host = Dns.GetHostEntry(Dns.GetHostName());
+	foreach (var ip in host.AddressList)
+	{
+		if (ip.AddressFamily == AddressFamily.InterNetwork)
+		{
+			return ip.ToString();
+		}
 	}
+	throw new Exception("No network adapters with an IPv4 address in the system!");
+}
+
 
 	private void AcceptTcpClients()
 	{

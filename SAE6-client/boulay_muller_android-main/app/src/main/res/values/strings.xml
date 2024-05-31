@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">game wifi</string>
+    <string name="text_server">MAXICONTROL</string>
+    <string name="text_ip">ip server</string>
+    <string name="button_join">Connect</string>
+    <string name="login">clem_val</string>
+    <string name="shoot">shoot</string>
+    <string name="pref_title">Color</string>
+    <string name="serveurID">192.168.1.197</string>
+    <string name="bot">bot</string>
+    <string name="btnMsg">Let\'s GO</string>
+    <string name="msgGroupe">Envoyer un message</string>
+    <string name="btnMsg2">:-)</string>
+    <string name="ServeurTitle">IP Serveur</string>
+</resources>
