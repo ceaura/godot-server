@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://bd4lf4l8gs3yl"]
+
+[ext_resource type="Script" path="res://scenes/spaceship/Spaceship.gd" id="1_oly0f"]
+[ext_resource type="Texture2D" uid="uid://cucw2163kq8jk" path="res://assets/sprites/spaceship/SVG/Spaceships/01/Spaceship_01_PURPLE.svg" id="2_d5tvq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d47ka"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_d5tvq")
+}],
+"loop": true,
+"name": &"idle_purple",
+"speed": 5.0
+}]
+
+[node name="Spaceship" type="Node2D"]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_oly0f")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_d47ka")
+animation = &"idle_purple"
+frame_progress = 0.0522843

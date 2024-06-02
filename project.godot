@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="Essaie de connexion TCP"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://src/icon.svg"
 
 [dotnet]
 
