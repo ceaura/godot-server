@@ -1,0 +1,9 @@
+com.example.gamewifi.test.app-jetified-annotation-experimental-1.1.0-0 C:\Users\Valen\.gradle\caches\transforms-3\c557da42963bcc4b0c98c377ae0abb82\transformed\jetified-annotation-experimental-1.1.0\res
+com.example.gamewifi.test.app-jetified-core-1.5.0-1 C:\Users\Valen\.gradle\caches\transforms-3\c7db7abcfcd6d415152bbddf12ea0332\transformed\jetified-core-1.5.0\res
+com.example.gamewifi.test.app-androidTest-2 C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\build\generated\res\resValues\androidTest\debug
+com.example.gamewifi.test.app-androidTest-3 C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\build\generated\res\rs\androidTest\debug
+com.example.gamewifi.test.app-mergeDebugAndroidTestResources-4 C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.example.gamewifi.test.app-mergeDebugAndroidTestResources-5 C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.example.gamewifi.test.app-merged_res-6 C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\build\intermediates\merged_res\debugAndroidTest
+com.example.gamewifi.test.app-androidTest-7 C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\androidTest\res
+com.example.gamewifi.test.app-androidTestDebug-8 C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\androidTestDebug\res

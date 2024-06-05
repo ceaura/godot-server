@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ba12jm3osghea"]
+
+[node name="Spaceship" type="Node2D"]
+
+[node name="Nightraiderfixed" type="Sprite2D" parent="."]
+position = Vector2(115, 76)

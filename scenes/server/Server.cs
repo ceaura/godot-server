@@ -15,14 +15,18 @@ public partial class Server : Node
 	private UdpClient _udpClient;
 	private List<TcpClient> _tcpClients = new List<TcpClient>();
 
-	private Node2D spaceship;
-
+	private Area2D spaceship;
+	private float motL = 0.5f;
+	private float motR = 0.5f;
+	
 	public override void _EnterTree()
 	{
+		string localIP = GetLocalIPAddress();
+		GD.Print("Local IP is : ", localIP);
+		
 		StartTcpServer();
 		StartUdpServer();
-		spaceship = GetTree().Root.GetNode<Node2D>("Node2D").GetNode<Node2D>("Spaceship");
-		GD.Print("Server started", GetTree().Root.GetNode<Node2D>("Node2D").GetNode<Node2D>("Spaceship").Name);
+		spaceship = GetTree().Root.GetNode<Node>("Game").GetNode<Area2D>("Spaceship");
 		GD.Print("Server started");
 	}
 
@@ -43,15 +47,30 @@ public partial class Server : Node
 		}
 	}
 
-	private void StartTcpServer()
-	{
-		_tcpListener = new TcpListener(IPAddress.Any, _tcpPort);
-		_tcpListener.Start();
-		GD.Print("TCP Server listening on port ", _tcpPort);
+private void StartTcpServer()
+{
+	_tcpListener = new TcpListener(IPAddress.Any, _tcpPort);
+	_tcpListener.Start();
 
-		Thread tcpAcceptThread = new Thread(AcceptTcpClients);
-		tcpAcceptThread.Start();
+	GD.Print("TCP Server listening on ", _tcpPort);
+
+	Thread tcpAcceptThread = new Thread(AcceptTcpClients);
+	tcpAcceptThread.Start();
+}
+
+// Method to retrieve the local IP address
+private string GetLocalIPAddress()
+{
+	var host = Dns.GetHostEntry(Dns.GetHostName());
+	foreach (var ip in host.AddressList)
+	{
+		if (ip.AddressFamily == AddressFamily.InterNetwork)
+		{
+			return ip.ToString();
+		}
 	}
+	throw new Exception("No network adapters with an IPv4 address in the system!");
+}
 
 	private void AcceptTcpClients()
 	{
@@ -105,10 +124,12 @@ public partial class Server : Node
 		_udpClient.Send(responseData, responseData.Length, remoteEP);
 	}
 
-	private string ProcessCommand(string command)
+ private string ProcessCommand(string command)
 	{
-		// Parse and handle the command
 		var commands = command.Split('#');
+		float? motL = null;
+		float? motR = null;
+
 		foreach (var cmd in commands)
 		{
 			var parts = cmd.Split('=');
@@ -122,15 +143,28 @@ public partial class Server : Node
 				case "COL":
 					return HandleColorCommand(args);
 				case "MotL":
-					return HandleMotorLeftCommand(args);
+					if (args.Length == 1)
+					{
+						motL = (float)Convert.ToDouble(args[0]);
+					}
+					break;
 				case "MotR":
-					return HandleMotorRightCommand(args);
-				// Add other command handlers here
+					if (args.Length == 1)
+					{
+						motR = (float)Convert.ToDouble(args[0]);
+					}
+					break;
 				default:
 					GD.Print("Unknown command: ", key);
 					return "Unknown command: " + key;
 			}
 		}
+
+		if (motL.HasValue || motR.HasValue)
+		{
+			UpdateMotors(motL ?? this.motL, motR ?? this.motR);
+		}
+
 		return "Command processed";
 	}
 
@@ -164,27 +198,12 @@ public partial class Server : Node
 		return "Invalid COL command";
 	}
 
-	private string HandleMotorLeftCommand(string[] args)
+	private void UpdateMotors(float motL, float motR)
 	{
-		if (args.Length == 1)
-		{
-			var value = args[0].ToFloat();
-			spaceship.Call("set_motor_left", value);
-			GD.Print("Set motor left to: ", value);
-			return "Motor left set to: " + value;
-		}
-		return "Invalid MotL command";
-	}
-
-	private string HandleMotorRightCommand(string[] args)
-	{
-		if (args.Length == 1)
-		{
-			var value = args[0].ToFloat();
-			spaceship.Call("set_motor_right", value);
-			GD.Print("Set motor right to: ", value);
-			return "Motor right set to: " + value;
-		}
-		return "Invalid MotR command";
+		this.motL = motL;
+		this.motR = motR;
+		spaceship.Call("set_motor_left", motL);
+		spaceship.Call("set_motor_right", motR);
+		GD.Print($"Motors updated: Left={motL}, Right={motR}");
 	}
 }

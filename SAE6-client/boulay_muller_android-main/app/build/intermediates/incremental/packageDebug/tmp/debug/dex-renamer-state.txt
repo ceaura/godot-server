@@ -1,0 +1,4 @@
+#Fri May 31 14:59:44 CEST 2024
+base.0=C\:\\Users\\Valen\\Prog\\GODOT\\sae_s6\\SAE6-client\\boulay_muller_android-main\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

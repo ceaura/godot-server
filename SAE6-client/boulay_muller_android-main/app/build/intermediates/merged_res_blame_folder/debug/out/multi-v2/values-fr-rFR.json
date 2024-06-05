@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.gamewifi.app-mergeDebugResources-31:/values-fr-rFR/values-fr-rFR.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Valen\\Prog\\GODOT\\sae_s6\\SAE6-client\\boulay_muller_android-main\\app\\src\\main\\res\\values-fr-rFR\\strings.xml",
+                    "from": {
+                        "startLines": "14,2,10,11,13,5,6,12,8,9,7,4,3",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "620,55,437,474,580,205,255,523,338,385,298,156,104",
+                        "endColumns": "53,48,36,48,39,49,42,56,46,51,39,48,51",
+                        "endOffsets": "669,99,469,518,615,250,293,575,380,432,333,200,151"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,109,158,195,244,284,334,377,434,481,533,573,622",
+                        "endColumns": "53,48,36,48,39,49,42,56,46,51,39,48,51",
+                        "endOffsets": "104,153,190,239,279,329,372,429,476,528,568,617,669"
+                    }
+                }
+            ]
+        }
+    ]
+}
