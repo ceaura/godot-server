@@ -1,0 +1,107 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.gamewifi"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="19"
+8-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="32" />
+9-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:4:1-79
+11-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:4:18-60
+12
+13    <application
+13-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:5:5-36:19
+14        android:allowBackup="true"
+14-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:6:9-35
+15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+15-->[androidx.core:core:1.8.0] C:\Users\Valen\.gradle\caches\transforms-3\b9682c8032d04de62b591f77f6236344\transformed\core-1.8.0\AndroidManifest.xml:24:18-86
+16        android:dataExtractionRules="@xml/data_extraction_rules"
+16-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:7:9-65
+17        android:debuggable="true"
+18        android:fullBackupContent="@xml/backup_rules"
+18-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:8:9-54
+19        android:icon="@drawable/ic_logo"
+19-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:9:9-41
+20        android:label="@string/app_name"
+20-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:10:9-41
+21        android:supportsRtl="true"
+21-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:11:9-35
+22        android:testOnly="true"
+23        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+23-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:12:9-65
+24
+25        <!-- 19 -->
+26        <activity
+26-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:16:9-29:20
+27            android:name="com.example.gamewifi.MainActivity"
+27-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:17:13-41
+28            android:exported="true" >
+28-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:18:13-36
+29            <intent-filter>
+29-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:20:13-24:29
+30                <action android:name="android.intent.action.MAIN" />
+30-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:21:17-69
+30-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:21:25-66
+31
+32                <category android:name="android.intent.category.LAUNCHER" />
+32-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:23:17-77
+32-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:23:27-74
+33            </intent-filter>
+34
+35            <meta-data
+35-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:26:13-28:36
+36                android:name="android.app.lib_name"
+36-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:27:17-52
+37                android:value="" />
+37-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:28:17-33
+38        </activity>
+39        <activity
+39-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:30:9-35:20
+40            android:name="com.example.gamewifi.controller"
+40-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:31:13-39
+41            android:exported="false" >
+41-->C:\Users\Valen\Prog\GODOT\sae_s6\SAE6-client\boulay_muller_android-main\app\src\main\AndroidManifest.xml:32:13-37
+42        </activity>
+43
+44        <provider
+44-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Valen\.gradle\caches\transforms-3\3e831f2fffaff11d601c76b4898e3117\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+45            android:name="androidx.startup.InitializationProvider"
+45-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Valen\.gradle\caches\transforms-3\3e831f2fffaff11d601c76b4898e3117\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:25:13-67
+46            android:authorities="com.example.gamewifi.androidx-startup"
+46-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Valen\.gradle\caches\transforms-3\3e831f2fffaff11d601c76b4898e3117\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:26:13-68
+47            android:exported="false" >
+47-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Valen\.gradle\caches\transforms-3\3e831f2fffaff11d601c76b4898e3117\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:27:13-37
+48            <meta-data
+48-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Valen\.gradle\caches\transforms-3\3e831f2fffaff11d601c76b4898e3117\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+49                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+49-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Valen\.gradle\caches\transforms-3\3e831f2fffaff11d601c76b4898e3117\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:30:17-75
+50                android:value="androidx.startup" />
+50-->[androidx.emoji2:emoji2:1.2.0] C:\Users\Valen\.gradle\caches\transforms-3\3e831f2fffaff11d601c76b4898e3117\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:31:17-49
+51            <meta-data
+51-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Valen\.gradle\caches\transforms-3\8a84be4b11ab77f470ca28ee48c5e78d\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+52                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+52-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Valen\.gradle\caches\transforms-3\8a84be4b11ab77f470ca28ee48c5e78d\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+53                android:value="androidx.startup" />
+53-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\Valen\.gradle\caches\transforms-3\8a84be4b11ab77f470ca28ee48c5e78d\transformed\jetified-lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+54        </provider>
+55
+56        <uses-library
+56-->[androidx.window:window:1.0.0] C:\Users\Valen\.gradle\caches\transforms-3\b20fa504350efb4802714827fdc30c92\transformed\jetified-window-1.0.0\AndroidManifest.xml:25:9-27:40
+57            android:name="androidx.window.extensions"
+57-->[androidx.window:window:1.0.0] C:\Users\Valen\.gradle\caches\transforms-3\b20fa504350efb4802714827fdc30c92\transformed\jetified-window-1.0.0\AndroidManifest.xml:26:13-54
+58            android:required="false" />
+58-->[androidx.window:window:1.0.0] C:\Users\Valen\.gradle\caches\transforms-3\b20fa504350efb4802714827fdc30c92\transformed\jetified-window-1.0.0\AndroidManifest.xml:27:13-37
+59        <uses-library
+59-->[androidx.window:window:1.0.0] C:\Users\Valen\.gradle\caches\transforms-3\b20fa504350efb4802714827fdc30c92\transformed\jetified-window-1.0.0\AndroidManifest.xml:28:9-30:40
+60            android:name="androidx.window.sidecar"
+60-->[androidx.window:window:1.0.0] C:\Users\Valen\.gradle\caches\transforms-3\b20fa504350efb4802714827fdc30c92\transformed\jetified-window-1.0.0\AndroidManifest.xml:29:13-51
+61            android:required="false" />
+61-->[androidx.window:window:1.0.0] C:\Users\Valen\.gradle\caches\transforms-3\b20fa504350efb4802714827fdc30c92\transformed\jetified-window-1.0.0\AndroidManifest.xml:30:13-37
+62    </application>
+63
+64</manifest>
