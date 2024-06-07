@@ -2,7 +2,7 @@ extends Area2D
 
 var motL = 0.5
 var motR = 0.5
-var speed = 500
+var speed = 200
 var rotation_speed = 1
 
 func _ready():

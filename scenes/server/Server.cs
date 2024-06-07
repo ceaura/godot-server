@@ -15,24 +15,24 @@ public partial class Server : Node
 	private UdpClient _udpClient;
 	private List<TcpClient> _tcpClients = new List<TcpClient>();
 
-	private Area2D spaceship;
-	private float motL = 0.5f;
-	private float motR = 0.5f;
-	
+	private Dictionary<string, Area2D> clientSpaceships = new Dictionary<string, Area2D>();
+
+	private Node signalManager;
+
 	public override void _EnterTree()
 	{
 		string localIP = GetLocalIPAddress();
 		GD.Print("Local IP is : ", localIP);
-		
+
 		StartTcpServer();
 		StartUdpServer();
-		spaceship = GetTree().Root.GetNode<Node>("Game").GetNode<Area2D>("Spaceship");
+
+		signalManager = GetTree().Root.GetNode<Node>("Game").GetNode<Node>("SignalManager");
 		GD.Print("Server started");
 	}
 
 	public override void _Process(double delta)
 	{
-		// Handle TCP clients
 		lock (_tcpClients)
 		{
 			foreach (var client in _tcpClients)
@@ -47,30 +47,29 @@ public partial class Server : Node
 		}
 	}
 
-private void StartTcpServer()
-{
-	_tcpListener = new TcpListener(IPAddress.Any, _tcpPort);
-	_tcpListener.Start();
-
-	GD.Print("TCP Server listening on ", _tcpPort);
-
-	Thread tcpAcceptThread = new Thread(AcceptTcpClients);
-	tcpAcceptThread.Start();
-}
-
-// Method to retrieve the local IP address
-private string GetLocalIPAddress()
-{
-	var host = Dns.GetHostEntry(Dns.GetHostName());
-	foreach (var ip in host.AddressList)
+	private void StartTcpServer()
 	{
-		if (ip.AddressFamily == AddressFamily.InterNetwork)
-		{
-			return ip.ToString();
-		}
+		_tcpListener = new TcpListener(IPAddress.Any, _tcpPort);
+		_tcpListener.Start();
+
+		GD.Print("TCP Server listening on ", _tcpPort);
+
+		Thread tcpAcceptThread = new Thread(AcceptTcpClients);
+		tcpAcceptThread.Start();
 	}
-	throw new Exception("No network adapters with an IPv4 address in the system!");
-}
+
+	private string GetLocalIPAddress()
+	{
+		var host = Dns.GetHostEntry(Dns.GetHostName());
+		foreach (var ip in host.AddressList)
+		{
+			if (ip.AddressFamily == AddressFamily.InterNetwork)
+			{
+				return ip.ToString();
+			}
+		}
+		throw new Exception("No network adapters with an IPv4 address in the system!");
+	}
 
 	private void AcceptTcpClients()
 	{
@@ -82,6 +81,8 @@ private string GetLocalIPAddress()
 				_tcpClients.Add(client);
 			}
 			GD.Print("New TCP client connected");
+			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
+			signalManager.CallDeferred("emit_signal", "client_connected", clientIdentifier);
 		}
 	}
 
@@ -108,8 +109,7 @@ private string GetLocalIPAddress()
 	{
 		string message = Encoding.UTF8.GetString(data);
 		GD.Print("Received TCP message: ", message);
-		string response = ProcessCommand(message);
-		// Send the response back to the client
+		string response = ProcessCommand(client, message);
 		byte[] responseData = Encoding.UTF8.GetBytes(response);
 		client.GetStream().Write(responseData, 0, responseData.Length);
 	}
@@ -118,13 +118,12 @@ private string GetLocalIPAddress()
 	{
 		string message = Encoding.UTF8.GetString(data);
 		GD.Print("Received UDP message: ", message);
-		string response = ProcessCommand(message);
-		// Send the response back to the client
+		string response = ProcessCommand(null, message);
 		byte[] responseData = Encoding.UTF8.GetBytes(response);
 		_udpClient.Send(responseData, responseData.Length, remoteEP);
 	}
 
- private string ProcessCommand(string command)
+	private string ProcessCommand(TcpClient client, string command)
 	{
 		var commands = command.Split('#');
 		float? motL = null;
@@ -160,9 +159,10 @@ private string GetLocalIPAddress()
 			}
 		}
 
-		if (motL.HasValue || motR.HasValue)
+		if (client != null && (motL.HasValue || motR.HasValue))
 		{
-			UpdateMotors(motL ?? this.motL, motR ?? this.motR);
+			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
+			UpdateMotors(clientIdentifier, motL ?? 0.5f, motR ?? 0.5f);
 		}
 
 		return "Command processed";
@@ -198,12 +198,22 @@ private string GetLocalIPAddress()
 		return "Invalid COL command";
 	}
 
-	private void UpdateMotors(float motL, float motR)
+	private void UpdateMotors(string clientIdentifier, float motL, float motR)
 	{
-		this.motL = motL;
-		this.motR = motR;
-		spaceship.Call("set_motor_left", motL);
-		spaceship.Call("set_motor_right", motR);
-		GD.Print($"Motors updated: Left={motL}, Right={motR}");
+		if (clientSpaceships.ContainsKey(clientIdentifier))
+		{
+			var spaceship = clientSpaceships[clientIdentifier];
+			spaceship.Call("set_motor_left", motL);
+			spaceship.Call("set_motor_right", motR);
+			GD.Print($"Motors updated for client {clientIdentifier}: Left={motL}, Right={motR}");
+		}
+	}
+
+	public void AddClientSpaceship(string clientIdentifier, Area2D spaceship)
+	{
+		if (!clientSpaceships.ContainsKey(clientIdentifier))
+		{
+			clientSpaceships[clientIdentifier] = spaceship;
+		}
 	}
 }
