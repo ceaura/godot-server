@@ -214,6 +214,7 @@ public partial class Server : Node
 		if (!clientSpaceships.ContainsKey(clientIdentifier))
 		{
 			clientSpaceships[clientIdentifier] = spaceship;
+			GD.Print($"client added in server");
 		}
 	}
 }

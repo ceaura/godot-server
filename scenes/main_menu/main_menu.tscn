@@ -1,5 +1,6 @@
-[gd_scene load_steps=214 format=3 uid="uid://fbsl0pbgphwi"]
+[gd_scene load_steps=215 format=3 uid="uid://fbsl0pbgphwi"]
 
+[ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_0t2dv"]
 [ext_resource type="Texture2D" uid="uid://cihdmld0b1xcs" path="res://assets/sprites/space_background/Backgrounds/PNGs/Condesed/Starry background  - Layer 01 - Void.png" id="1_buucg"]
 [ext_resource type="Texture2D" uid="uid://usdj5ugucq4j" path="res://assets/sprites/space_background/Planets/PNGs/Earth-Like planet - Without back glow.png" id="2_gfphk"]
 [ext_resource type="Texture2D" uid="uid://bq7uh3drsgbnn" path="res://assets/sprites/space_background/Backgrounds/PNGs/Condesed/Starry background  - Layer 02 - Stars.png" id="3_uu6y3"]
@@ -1472,6 +1473,7 @@ animations = [{
 }]
 
 [node name="MainMenu" type="Node2D"]
+script = ExtResource("1_0t2dv")
 
 [node name="animation" type="Node2D" parent="."]
 
@@ -1551,3 +1553,5 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("5_hohat")
 theme_override_font_sizes/font_size = 50
 text = "Quit"
+
+[connection signal="pressed" from="btn_container/play" to="." method="_on_play_pressed"]
