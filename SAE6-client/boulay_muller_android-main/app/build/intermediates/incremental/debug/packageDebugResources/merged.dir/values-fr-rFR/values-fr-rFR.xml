@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ServeurTitle">Ip du server</string>
+    <string name="app_name">MAXICONTROL</string>
+    <string name="bot">aide</string>
+    <string name="btnMsg">c\'est partie</string>
+    <string name="btnMsg2">:-)</string>
+    <string name="button_join">connexion</string>
+    <string name="login">clem_val</string>
+    <string name="msgGroupe">Envoyer un message</string>
+    <string name="pref_title">couleur</string>
+    <string name="serveurID">192.168.40.27</string>
+    <string name="shoot">tirer</string>
+    <string name="text_ip">ip du server</string>
+    <string name="text_server">MAXICONTROL</string>
+</resources>

@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://bd4lf4l8gs3yl"]
+
+[ext_resource type="Script" path="res://scenes/spaceship/Spaceship.gd" id="1_oly0f"]
+[ext_resource type="Texture2D" uid="uid://cucw2163kq8jk" path="res://assets/sprites/spaceship/SVG/Spaceships/01/Spaceship_01_PURPLE.svg" id="2_d5tvq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d47ka"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_d5tvq")
+}],
+"loop": false,
+"name": &"idle_purple",
+"speed": 5.0
+}]
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_oly0f")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_d47ka")
+animation = &"idle_purple"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1, -28, -9, -18, -29, -15, -35, -10, -37, 5, -32, 12, -14, 12, -25, 22, -21, 26, -13, 22, -11, 26, -5, 27, 5, 26, 11, 28, 12, 22, 23, 26, 24, 23, 14, 11, 23, 14, 30, 10, 32, 14, 37, 11, 38, 3, 37, -5, 33, -12, 24, -16, 25, -23, 7, -19, 7, -26)
+
+[node name="Name" type="Label" parent="."]
+offset_left = -25.0
+offset_top = -57.0
+offset_right = 31.0
+offset_bottom = -34.0
+text = "aa"
+
+[node name="Msg" type="Label" parent="."]
+offset_left = -28.0
+offset_top = 34.0
+offset_right = 33.0
+offset_bottom = 57.0
