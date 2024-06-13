@@ -5,9 +5,9 @@ using Godot;
 
 public class CommandHandler : ICommandHandler
 {
-	private Dictionary<string, Area2D> _clientSpaceships;
+	private Dictionary<string, PlayerInfo> _clientSpaceships;
 
-	public CommandHandler(Dictionary<string, Area2D> clientSpaceships)
+	public CommandHandler(Dictionary<string, PlayerInfo> clientSpaceships)
 	{
 		_clientSpaceships = clientSpaceships;
 	}
@@ -78,8 +78,9 @@ public class CommandHandler : ICommandHandler
 			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
 			if (_clientSpaceships.ContainsKey(clientIdentifier))
 			{
-				var spaceship = _clientSpaceships[clientIdentifier];
-				spaceship.Call("set_name", playerName);
+				var playerInfo = _clientSpaceships[clientIdentifier];
+				playerInfo.Name = playerName;
+				playerInfo.Spaceship.Call("set_player_name", playerName);
 				GD.Print($"Set name for client {clientIdentifier} to {playerName}");
 			}
 			return "Name changed to: " + playerName;
@@ -108,8 +109,12 @@ public class CommandHandler : ICommandHandler
 
 	private string HandleNListCommand()
 	{
-		List<string> clientIdentifiers = new List<string>(_clientSpaceships.Keys);
-		string response = string.Join("=", clientIdentifiers);
+		List<string> playerNames = new List<string>();
+		foreach (var client in _clientSpaceships.Values)
+		{
+			playerNames.Add(client.Name);
+		}
+		string response = string.Join("=", playerNames);
 		GD.Print("List of connected players: ", response);
 		return response;
 	}
@@ -122,8 +127,8 @@ public class CommandHandler : ICommandHandler
 			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
 			if (_clientSpaceships.ContainsKey(clientIdentifier))
 			{
-				var spaceship = _clientSpaceships[clientIdentifier];
-				spaceship.Call("set_message", message);
+				var playerInfo = _clientSpaceships[clientIdentifier];
+				playerInfo.Spaceship.Call("set_message", message);
 				GD.Print($"Set message for client {clientIdentifier} to {message}");
 			}
 			return "Message set to: " + message;
@@ -136,8 +141,8 @@ public class CommandHandler : ICommandHandler
 		var clientIdentifier = client.Client.RemoteEndPoint.ToString();
 		if (_clientSpaceships.ContainsKey(clientIdentifier))
 		{
-			var spaceship = _clientSpaceships[clientIdentifier];
-			spaceship.QueueFree();
+			var playerInfo = _clientSpaceships[clientIdentifier];
+			playerInfo.Spaceship.QueueFree();
 			_clientSpaceships.Remove(clientIdentifier);
 			GD.Print($"Client {clientIdentifier} disconnected and spaceship removed");
 		}
@@ -148,9 +153,9 @@ public class CommandHandler : ICommandHandler
 	{
 		if (_clientSpaceships.ContainsKey(clientIdentifier))
 		{
-			var spaceship = _clientSpaceships[clientIdentifier];
-			spaceship.Call("set_motor_left", motL);
-			spaceship.Call("set_motor_right", motR);
+			var playerInfo = _clientSpaceships[clientIdentifier];
+			playerInfo.Spaceship.Call("set_motor_left", motL);
+			playerInfo.Spaceship.Call("set_motor_right", motR);
 			GD.Print($"Motors updated for client {clientIdentifier}: Left={motL}, Right={motR}");
 		}
 	}

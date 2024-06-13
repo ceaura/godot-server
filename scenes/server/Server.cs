@@ -14,7 +14,7 @@ public partial class Server : Node
 	private INetworkServer _tcpServer;
 	private INetworkServer _udpServer;
 
-	private Dictionary<string, Area2D> _clientSpaceships = new Dictionary<string, Area2D>();
+	private Dictionary<string, PlayerInfo> _clientSpaceships = new Dictionary<string, PlayerInfo>();
 	private Node _signalManager;
 	private ICommandHandler _commandHandler;
 
@@ -45,8 +45,9 @@ public partial class Server : Node
 	{
 		if (!_clientSpaceships.ContainsKey(clientIdentifier))
 		{
-			_clientSpaceships[clientIdentifier] = spaceship;
-			GD.Print($"Client added in server");
+			var playerInfo = new PlayerInfo(spaceship);
+			_clientSpaceships[clientIdentifier] = playerInfo;
+			GD.Print($"Client added in server with identifier: {clientIdentifier}");
 		}
 	}
 

@@ -41,8 +41,8 @@ func set_motor_right(value):
 func map_motor_value(input_value):
 	return 2 * (input_value - 0.5)
 	
-func set_player_name(player_name):
-	player_name.text = player_name
+func set_player_name(name):
+	player_name.text = name
 
 func set_message(msg):
 	message_label.text = msg.substr(0, 30)  # Truncate if longer than 30 characters
