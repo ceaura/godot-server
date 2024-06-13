@@ -11,51 +11,43 @@ public partial class Server : Node
 	[Export] private int _tcpPort = 9999;
 	[Export] private int _udpPort = 10000;
 
-	private TcpListener _tcpListener;
-	private UdpClient _udpClient;
-	private List<TcpClient> _tcpClients = new List<TcpClient>();
+	private INetworkServer _tcpServer;
+	private INetworkServer _udpServer;
 
-	private Dictionary<string, Area2D> clientSpaceships = new Dictionary<string, Area2D>();
-
-	private Node signalManager;
+	private Dictionary<string, Area2D> _clientSpaceships = new Dictionary<string, Area2D>();
+	private Node _signalManager;
+	private ICommandHandler _commandHandler;
 
 	public override void _EnterTree()
 	{
 		string localIP = GetLocalIPAddress();
 		GD.Print("Local IP is : ", localIP);
 
-		StartTcpServer();
-		StartUdpServer();
+		_signalManager = GetTree().Root.GetNode<Node>("Game").GetNode<Node>("SignalManager");
+		_commandHandler = new CommandHandler(_clientSpaceships);
 
-		signalManager = GetTree().Root.GetNode<Node>("Game").GetNode<Node>("SignalManager");
+		var factory = new ServerFactory(_tcpPort, _udpPort, _commandHandler, _signalManager);
+		_tcpServer = factory.CreateTcpServer();
+		_udpServer = factory.CreateUdpServer();
+
+		_tcpServer.Start();
+		_udpServer.Start();
+
 		GD.Print("Server started");
 	}
 
 	public override void _Process(double delta)
 	{
-		lock (_tcpClients)
-		{
-			foreach (var client in _tcpClients)
-			{
-				if (client.Available > 0)
-				{
-					var buffer = new byte[client.Available];
-					client.GetStream().Read(buffer, 0, buffer.Length);
-					OnTcpPacketReceived(client, buffer);
-				}
-			}
-		}
+		_tcpServer.Process();
 	}
 
-	private void StartTcpServer()
+	public void AddClientSpaceship(string clientIdentifier, Area2D spaceship)
 	{
-		_tcpListener = new TcpListener(IPAddress.Any, _tcpPort);
-		_tcpListener.Start();
-
-		GD.Print("TCP Server listening on ", _tcpPort);
-
-		Thread tcpAcceptThread = new Thread(AcceptTcpClients);
-		tcpAcceptThread.Start();
+		if (!_clientSpaceships.ContainsKey(clientIdentifier))
+		{
+			_clientSpaceships[clientIdentifier] = spaceship;
+			GD.Print($"Client added in server");
+		}
 	}
 
 	private string GetLocalIPAddress()
@@ -69,152 +61,5 @@ public partial class Server : Node
 			}
 		}
 		throw new Exception("No network adapters with an IPv4 address in the system!");
-	}
-
-	private void AcceptTcpClients()
-	{
-		while (true)
-		{
-			var client = _tcpListener.AcceptTcpClient();
-			lock (_tcpClients)
-			{
-				_tcpClients.Add(client);
-			}
-			GD.Print("New TCP client connected");
-			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
-			signalManager.CallDeferred("emit_signal", "client_connected", clientIdentifier);
-		}
-	}
-
-	private void StartUdpServer()
-	{
-		_udpClient = new UdpClient(_udpPort);
-		GD.Print("UDP Server listening on port ", _udpPort);
-
-		Thread udpReceiveThread = new Thread(ReceiveUdpPackets);
-		udpReceiveThread.Start();
-	}
-
-	private void ReceiveUdpPackets()
-	{
-		IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, _udpPort);
-		while (true)
-		{
-			var data = _udpClient.Receive(ref remoteEP);
-			OnUdpPacketReceived(remoteEP, data);
-		}
-	}
-
-	private void OnTcpPacketReceived(TcpClient client, byte[] data)
-	{
-		string message = Encoding.UTF8.GetString(data);
-		GD.Print("Received TCP message: ", message);
-		string response = ProcessCommand(client, message);
-		byte[] responseData = Encoding.UTF8.GetBytes(response);
-		client.GetStream().Write(responseData, 0, responseData.Length);
-	}
-
-	private void OnUdpPacketReceived(IPEndPoint remoteEP, byte[] data)
-	{
-		string message = Encoding.UTF8.GetString(data);
-		GD.Print("Received UDP message: ", message);
-		string response = ProcessCommand(null, message);
-		byte[] responseData = Encoding.UTF8.GetBytes(response);
-		_udpClient.Send(responseData, responseData.Length, remoteEP);
-	}
-
-	private string ProcessCommand(TcpClient client, string command)
-	{
-		var commands = command.Split('#');
-		float? motL = null;
-		float? motR = null;
-
-		foreach (var cmd in commands)
-		{
-			var parts = cmd.Split('=');
-			var key = parts[0];
-			var args = parts.Length > 1 ? parts[1].Split(',') : new string[0];
-
-			switch (key)
-			{
-				case "NAME":
-					return HandleNameCommand(args);
-				case "COL":
-					return HandleColorCommand(args);
-				case "MotL":
-					if (args.Length == 1)
-					{
-						motL = (float)Convert.ToDouble(args[0]);
-					}
-					break;
-				case "MotR":
-					if (args.Length == 1)
-					{
-						motR = (float)Convert.ToDouble(args[0]);
-					}
-					break;
-				default:
-					GD.Print("Unknown command: ", key);
-					return "Unknown command: " + key;
-			}
-		}
-
-		if (client != null && (motL.HasValue || motR.HasValue))
-		{
-			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
-			UpdateMotors(clientIdentifier, motL ?? 0.5f, motR ?? 0.5f);
-		}
-
-		return "Command processed";
-	}
-
-	private string HandleNameCommand(string[] args)
-	{
-		if (args.Length > 0)
-		{
-			var playerName = args[0];
-			GD.Print("Change player name to: ", playerName);
-			return "Name changed to: " + playerName;
-		}
-		return "Invalid NAME command";
-	}
-
-	private string HandleColorCommand(string[] args)
-	{
-		if (args.Length == 1)
-		{
-			var color = args[0];
-			GD.Print("Change player color to: ", color);
-			return "Color changed to: " + color;
-		}
-		else if (args.Length == 3)
-		{
-			var r = args[0];
-			var g = args[1];
-			var b = args[2];
-			GD.Print($"Change player color to RGB: ({r}, {g}, {b})");
-			return $"Color changed to RGB: ({r}, {g}, {b})";
-		}
-		return "Invalid COL command";
-	}
-
-	private void UpdateMotors(string clientIdentifier, float motL, float motR)
-	{
-		if (clientSpaceships.ContainsKey(clientIdentifier))
-		{
-			var spaceship = clientSpaceships[clientIdentifier];
-			spaceship.Call("set_motor_left", motL);
-			spaceship.Call("set_motor_right", motR);
-			GD.Print($"Motors updated for client {clientIdentifier}: Left={motL}, Right={motR}");
-		}
-	}
-
-	public void AddClientSpaceship(string clientIdentifier, Area2D spaceship)
-	{
-		if (!clientSpaceships.ContainsKey(clientIdentifier))
-		{
-			clientSpaceships[clientIdentifier] = spaceship;
-			GD.Print($"client added in server");
-		}
 	}
 }
