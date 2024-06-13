@@ -5,10 +5,16 @@ var motR = 0.5
 var speed = 200
 var rotation_speed = 1
 
-@onready var label = $Label
+var message_timer: Timer
+@onready var player_name = $Name
+@onready var message_label = $Msg
 
 func _ready():
 	set_physics_process(true)
+	message_timer = Timer.new()
+	message_timer.set_wait_time(3)  # 3 seconds
+	message_timer.connect("timeout", _on_message_timer_timeout)
+	add_child(message_timer)
 
 func _physics_process(delta):
 	var mapped_motL = map_motor_value(motL)
@@ -36,4 +42,12 @@ func map_motor_value(input_value):
 	return 2 * (input_value - 0.5)
 	
 func set_player_name(player_name):
-	label.text = player_name
+	player_name.text = player_name
+
+func set_message(msg):
+	message_label.text = msg.substr(0, 30)  # Truncate if longer than 30 characters
+	message_label.show()
+	message_timer.start()
+
+func _on_message_timer_timeout():
+	message_label.hide()

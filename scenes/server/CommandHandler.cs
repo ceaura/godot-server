@@ -48,6 +48,9 @@ public class CommandHandler : ICommandHandler
 				case "NLIST":
 					response = HandleNListCommand();
 					break;
+				case "MSG":
+					response = HandleMsgCommand(args, client);
+					break;
 				case "EXIT":
 					response = HandleExitCommand(client);
 					break;
@@ -76,7 +79,7 @@ public class CommandHandler : ICommandHandler
 			if (_clientSpaceships.ContainsKey(clientIdentifier))
 			{
 				var spaceship = _clientSpaceships[clientIdentifier];
-				spaceship.Call("set_player_name", playerName);
+				spaceship.Call("set_name", playerName);
 				GD.Print($"Set name for client {clientIdentifier} to {playerName}");
 			}
 			return "Name changed to: " + playerName;
@@ -109,6 +112,23 @@ public class CommandHandler : ICommandHandler
 		string response = string.Join("=", clientIdentifiers);
 		GD.Print("List of connected players: ", response);
 		return response;
+	}
+
+	private string HandleMsgCommand(string[] args, TcpClient client)
+	{
+		if (args.Length > 0)
+		{
+			var message = args[0];
+			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
+			if (_clientSpaceships.ContainsKey(clientIdentifier))
+			{
+				var spaceship = _clientSpaceships[clientIdentifier];
+				spaceship.Call("set_message", message);
+				GD.Print($"Set message for client {clientIdentifier} to {message}");
+			}
+			return "Message set to: " + message;
+		}
+		return "Invalid MSG command";
 	}
 
 	private string HandleExitCommand(TcpClient client)
