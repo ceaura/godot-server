@@ -12,7 +12,7 @@ var message_timer: Timer
 func _ready():
 	set_physics_process(true)
 	message_timer = Timer.new()
-	message_timer.set_wait_time(3)  # 3 seconds
+	message_timer.set_wait_time(6)  # seconds
 	message_timer.connect("timeout", _on_message_timer_timeout)
 	add_child(message_timer)
 

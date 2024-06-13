@@ -51,6 +51,9 @@ public class CommandHandler : ICommandHandler
 				case "MSG":
 					response = HandleMsgCommand(args, client);
 					break;
+				case "USRMSG":
+					response = HandleUsrMsgCommand(args);
+					break;
 				case "EXIT":
 					response = HandleExitCommand(client);
 					break;
@@ -129,11 +132,28 @@ public class CommandHandler : ICommandHandler
 			{
 				var playerInfo = _clientSpaceships[clientIdentifier];
 				playerInfo.Spaceship.Call("set_message", message);
+				playerInfo.Message = message; // Store the message in PlayerInfo
 				GD.Print($"Set message for client {clientIdentifier} to {message}");
 			}
 			return "Message set to: " + message;
 		}
 		return "Invalid MSG command";
+	}
+
+	private string HandleUsrMsgCommand(string[] args)
+	{
+		if (args.Length > 0)
+		{
+			var playerName = args[0];
+			foreach (var playerInfo in _clientSpaceships.Values)
+			{
+				if (playerInfo.Name == playerName)
+				{
+					return playerInfo.Message ?? "EMPTY";
+				}
+			}
+		}
+		return "EMPTY";
 	}
 
 	private string HandleExitCommand(TcpClient client)
