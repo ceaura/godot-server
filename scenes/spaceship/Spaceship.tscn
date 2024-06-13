@@ -29,3 +29,10 @@ animation = &"idle_purple"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-1, -28, -9, -18, -29, -15, -35, -10, -37, 5, -32, 12, -14, 12, -25, 22, -21, 26, -13, 22, -11, 26, -5, 27, 5, 26, 11, 28, 12, 22, 23, 26, 24, 23, 14, 11, 23, 14, 30, 10, 32, 14, 37, 11, 38, 3, 37, -5, 33, -12, 24, -16, 25, -23, 7, -19, 7, -26)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -25.0
+offset_top = -57.0
+offset_right = 31.0
+offset_bottom = -34.0
+text = "test"

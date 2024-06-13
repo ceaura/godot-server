@@ -6,7 +6,7 @@ using Godot;
 public class CommandHandler : ICommandHandler
 {
 	private Dictionary<string, Area2D> _clientSpaceships;
-	
+
 	public CommandHandler(Dictionary<string, Area2D> clientSpaceships)
 	{
 		_clientSpaceships = clientSpaceships;
@@ -28,7 +28,7 @@ public class CommandHandler : ICommandHandler
 			switch (key)
 			{
 				case "NAME":
-					response = HandleNameCommand(args);
+					response = HandleNameCommand(args, client);
 					break;
 				case "COL":
 					response = HandleColorCommand(args);
@@ -48,6 +48,9 @@ public class CommandHandler : ICommandHandler
 				case "NLIST":
 					response = HandleNListCommand();
 					break;
+				case "EXIT":
+					response = HandleExitCommand(client);
+					break;
 				default:
 					GD.Print("Unknown command: ", key);
 					response = "Unknown command: " + key;
@@ -64,12 +67,18 @@ public class CommandHandler : ICommandHandler
 		return response;
 	}
 
-	private string HandleNameCommand(string[] args)
+	private string HandleNameCommand(string[] args, TcpClient client)
 	{
 		if (args.Length > 0)
 		{
 			var playerName = args[0];
-			GD.Print("Change player name to: ", playerName);
+			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
+			if (_clientSpaceships.ContainsKey(clientIdentifier))
+			{
+				var spaceship = _clientSpaceships[clientIdentifier];
+				spaceship.Call("set_player_name", playerName);
+				GD.Print($"Set name for client {clientIdentifier} to {playerName}");
+			}
 			return "Name changed to: " + playerName;
 		}
 		return "Invalid NAME command";
@@ -100,6 +109,19 @@ public class CommandHandler : ICommandHandler
 		string response = string.Join("=", clientIdentifiers);
 		GD.Print("List of connected players: ", response);
 		return response;
+	}
+
+	private string HandleExitCommand(TcpClient client)
+	{
+		var clientIdentifier = client.Client.RemoteEndPoint.ToString();
+		if (_clientSpaceships.ContainsKey(clientIdentifier))
+		{
+			var spaceship = _clientSpaceships[clientIdentifier];
+			spaceship.QueueFree();
+			_clientSpaceships.Remove(clientIdentifier);
+			GD.Print($"Client {clientIdentifier} disconnected and spaceship removed");
+		}
+		return "Client disconnected";
 	}
 
 	private void UpdateMotors(string clientIdentifier, float motL, float motR)

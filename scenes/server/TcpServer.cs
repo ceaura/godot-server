@@ -50,13 +50,19 @@ public class TcpServer : INetworkServer
 	{
 		lock (_tcpClients)
 		{
-			foreach (var client in _tcpClients)
+			for (int i = _tcpClients.Count - 1; i >= 0; i--)
 			{
+				var client = _tcpClients[i];
 				if (client.Available > 0)
 				{
 					var buffer = new byte[client.Available];
 					client.GetStream().Read(buffer, 0, buffer.Length);
 					OnTcpPacketReceived(client, buffer);
+				}
+				else if (!IsClientConnected(client))
+				{
+					DisconnectClient(client);
+					_tcpClients.RemoveAt(i);
 				}
 			}
 		}
@@ -69,5 +75,25 @@ public class TcpServer : INetworkServer
 		string response = _commandHandler.ProcessCommand(client, message);
 		byte[] responseData = Encoding.UTF8.GetBytes(response);
 		client.GetStream().Write(responseData, 0, responseData.Length);
+	}
+
+	private bool IsClientConnected(TcpClient client)
+	{
+		try
+		{
+			return !(client.Client.Poll(1, SelectMode.SelectRead) && client.Available == 0);
+		}
+		catch (SocketException) { return false; }
+	}
+
+	private void DisconnectClient(TcpClient client)
+	{
+		string clientIdentifier = client.Client.RemoteEndPoint.ToString();
+		if (_commandHandler is CommandHandler handler)
+		{
+			handler.ProcessCommand(client, "EXIT");
+		}
+		client.Close();
+		GD.Print($"Client {clientIdentifier} disconnected");
 	}
 }

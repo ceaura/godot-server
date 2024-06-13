@@ -5,6 +5,8 @@ var motR = 0.5
 var speed = 200
 var rotation_speed = 1
 
+@onready var label = $Label
+
 func _ready():
 	set_physics_process(true)
 
@@ -32,3 +34,6 @@ func set_motor_right(value):
 
 func map_motor_value(input_value):
 	return 2 * (input_value - 0.5)
+	
+func set_player_name(player_name):
+	label.text = player_name
