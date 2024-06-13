@@ -54,6 +54,9 @@ public class CommandHandler : ICommandHandler
 				case "USRMSG":
 					response = HandleUsrMsgCommand(args);
 					break;
+				case "ORIENT":
+					response = HandleOrientCommand(client);
+					break;
 				case "EXIT":
 					response = HandleExitCommand(client);
 					break;
@@ -167,6 +170,23 @@ public class CommandHandler : ICommandHandler
 			GD.Print($"Client {clientIdentifier} disconnected and spaceship removed");
 		}
 		return "Client disconnected";
+	}
+	
+	private string HandleOrientCommand(TcpClient client)
+	{
+		var clientIdentifier = client.Client.RemoteEndPoint.ToString();
+		if (_clientSpaceships.ContainsKey(clientIdentifier))
+		{
+			var playerInfo = _clientSpaceships[clientIdentifier];
+			float orientation = playerInfo.Spaceship.Rotation % (2 * Mathf.Pi);
+			if (orientation < 0)
+			{
+				orientation += 2 * Mathf.Pi;
+			}
+			GD.Print($"Orientation for client {clientIdentifier}: {orientation}");
+			return orientation.ToString();
+		}
+		return "Invalid ORIENT command";
 	}
 
 	private void UpdateMotors(string clientIdentifier, float motL, float motR)
