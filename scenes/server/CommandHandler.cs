@@ -219,7 +219,6 @@ public class CommandHandler : ICommandHandler
 	{
 		if (_clientSpaceships.ContainsKey(clientIdentifier))
 		{
-			GD.Print($"passed in shipSetGunTrig");
 			var playerInfo = _clientSpaceships[clientIdentifier];
 			playerInfo.Spaceship.Call("setGunTrig", gunTrig);
 			GD.Print($"Spaceship of client {clientIdentifier} shooted");

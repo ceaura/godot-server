@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu733tjqhl88u"]
+
+[ext_resource type="Texture2D" uid="uid://cvn3xganiwq3h" path="res://assets/sprites/obstacles/Blanc.png" id="1_i0dsc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fdg2w"]
+size = Vector2(4, 3)
+
+[node name="Obstacle" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_i0dsc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_fdg2w")

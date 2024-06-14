@@ -1556,4 +1556,6 @@ theme_override_fonts/font = ExtResource("5_hohat")
 theme_override_font_sizes/font_size = 50
 text = "Quit"
 
+[node name="obstacles" type="Node" parent="."]
+
 [connection signal="pressed" from="btn_container/play" to="." method="_on_play_pressed"]
