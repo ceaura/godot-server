@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bbtaonwhkkgbv"
-path="res://.godot/imported/01 Ascension.wav-25201871da062cf137497b586883430f.sample"
+path="res://.godot/imported/01 Ascension.wav-33677e8148f24826b58474c60a881200.sample"
 
 [deps]
 
-source_file="res://assets/audio/01 Ascension.wav"
-dest_files=["res://.godot/imported/01 Ascension.wav-25201871da062cf137497b586883430f.sample"]
+source_file="res://assets/audio/background_music/01 Ascension.wav"
+dest_files=["res://.godot/imported/01 Ascension.wav-33677e8148f24826b58474c60a881200.sample"]
 
 [params]
 

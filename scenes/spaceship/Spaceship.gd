@@ -1,13 +1,22 @@
 extends Area2D
 
+const MIN_GUNTRIG_SHOOT_AVAILABLE = 0.5
 var motL = 0.5
 var motR = 0.5
+var gunTrig = 0
 var speed = 200
 var rotation_speed = 1
 
 var message_timer: Timer
+
+#### ON READY ####
 @onready var player_name = $Name
 @onready var message_label = $Msg
+@onready var marker = $laser
+
+#### EXPORT ####
+@export var laser_scene : PackedScene
+
 
 func _ready():
 	set_physics_process(true)
@@ -31,6 +40,10 @@ func _physics_process(delta):
 	var direction = Vector2(0, -1).rotated(rotation)
 
 	global_position += direction * thrust * speed * delta
+	
+	if gunTrig > MIN_GUNTRIG_SHOOT_AVAILABLE:
+		print(gunTrig)
+		shoot()
 
 func set_motor_left(value):
 	motL = clamp(value, 0.0, 1.0)
@@ -51,3 +64,13 @@ func set_message(msg):
 
 func _on_message_timer_timeout():
 	message_label.hide()
+	
+func shoot():
+	var laser = laser_scene.instantiate()
+	laser.transform = marker.transform
+	add_child(laser)
+
+func setGunTrig(value):
+	gunTrig = value
+	shoot()
+	print("Guntrig = " , str(gunTrig))

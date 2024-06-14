@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7xeuu8byve7p"
-path="res://.godot/imported/Spaceship_01_BLUE.png-e2ec661f80872d544bfa96511541f9d2.ctex"
+uid="uid://dkbtude1rt0qw"
+path="res://.godot/imported/laz_3.png-6ba3d2fdd4bf3ff8551528255b9674ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/spaceship/PNG/Spaceships/01/Spaceship_01_BLUE.png"
-dest_files=["res://.godot/imported/Spaceship_01_BLUE.png-e2ec661f80872d544bfa96511541f9d2.ctex"]
+source_file="res://assets/sprites/laser/laz_3.png"
+dest_files=["res://.godot/imported/laz_3.png-6ba3d2fdd4bf3ff8551528255b9674ed.ctex"]
 
 [params]
 

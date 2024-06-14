@@ -17,6 +17,7 @@ public class CommandHandler : ICommandHandler
 		var commands = command.Split('#');
 		float? motL = null;
 		float? motR = null;
+		float? gunTrig = null;
 		string response = "Command processed";
 
 		foreach (var cmd in commands)
@@ -45,6 +46,12 @@ public class CommandHandler : ICommandHandler
 						motR = (float)Convert.ToDouble(args[0]);
 					}
 					break;
+				case "GunTrig":
+					if (args.Length == 1)
+					{
+						gunTrig = (float)Convert.ToDouble(args[0]);
+					}
+					break;
 				case "NLIST":
 					response = HandleNListCommand();
 					break;
@@ -71,6 +78,11 @@ public class CommandHandler : ICommandHandler
 		{
 			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
 			UpdateMotors(clientIdentifier, motL ?? 0.5f, motR ?? 0.5f);
+		}
+		if (client != null && gunTrig.HasValue)
+		{
+			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
+			ClientShipSetGunTrig(clientIdentifier, gunTrig ?? 0f);
 		}
 
 		return response;
@@ -197,6 +209,16 @@ public class CommandHandler : ICommandHandler
 			playerInfo.Spaceship.Call("set_motor_left", motL);
 			playerInfo.Spaceship.Call("set_motor_right", motR);
 			GD.Print($"Motors updated for client {clientIdentifier}: Left={motL}, Right={motR}");
+		}
+	}
+	
+	private void ClientShipSetGunTrig(string clientIdentifier, float gunTrig)
+	{
+		if (_clientSpaceships.ContainsKey(clientIdentifier))
+		{
+			var playerInfo = _clientSpaceships[clientIdentifier];
+			playerInfo.Spaceship.Call("setGunTrig", gunTrig);
+			GD.Print($"Spaceship of client {clientIdentifier} shooted");
 		}
 	}
 }

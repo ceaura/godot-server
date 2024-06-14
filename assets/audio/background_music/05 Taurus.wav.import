@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://6o27ypdsbhs3"
-path="res://.godot/imported/05 Taurus.wav-36001eee4e8f85ef66cd04dcc2bc13a6.sample"
+path="res://.godot/imported/05 Taurus.wav-bd147c9608df30ad3721a4a6d06e4789.sample"
 
 [deps]
 
-source_file="res://assets/audio/05 Taurus.wav"
-dest_files=["res://.godot/imported/05 Taurus.wav-36001eee4e8f85ef66cd04dcc2bc13a6.sample"]
+source_file="res://assets/audio/background_music/05 Taurus.wav"
+dest_files=["res://.godot/imported/05 Taurus.wav-bd147c9608df30ad3721a4a6d06e4789.sample"]
 
 [params]
 

@@ -22,3 +22,20 @@ window/stretch/mode="viewport"
 [dotnet]
 
 project/assembly_name="sae 6"
+
+[file_customization]
+
+folder_colors={
+"res://Documents/": "red",
+"res://SAE6-client/": "teal",
+"res://addons/": "purple",
+"res://assets/": "green",
+"res://scenes/": "blue",
+"res://src/": "pink"
+}
+
+[layer_names]
+
+2d_physics/layer_1="spaceship"
+2d_physics/layer_2="obstacle"
+2d_physics/layer_3="laser"

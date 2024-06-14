@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cqn3ktoe35g68"
-path="res://.godot/imported/02 Curiosity.wav-08e56588f22f31565a0c2fa63b40dc9b.sample"
+path="res://.godot/imported/02 Curiosity.wav-667d51b97f96b42f307efa2fb0cf1aa4.sample"
 
 [deps]
 
-source_file="res://assets/audio/02 Curiosity.wav"
-dest_files=["res://.godot/imported/02 Curiosity.wav-08e56588f22f31565a0c2fa63b40dc9b.sample"]
+source_file="res://assets/audio/background_music/02 Curiosity.wav"
+dest_files=["res://.godot/imported/02 Curiosity.wav-667d51b97f96b42f307efa2fb0cf1aa4.sample"]
 
 [params]
 
