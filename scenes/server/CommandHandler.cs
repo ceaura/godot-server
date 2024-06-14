@@ -74,17 +74,20 @@ public class CommandHandler : ICommandHandler
 			}
 		}
 
-		if (client != null && (motL.HasValue || motR.HasValue))
+		if (client != null)
 		{
 			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
-			UpdateMotors(clientIdentifier, motL ?? 0.5f, motR ?? 0.5f);
-		}
-		if (client != null && gunTrig.HasValue)
-		{
-			var clientIdentifier = client.Client.RemoteEndPoint.ToString();
-			ClientShipSetGunTrig(clientIdentifier, gunTrig ?? 0f);
-		}
 
+			if (motL.HasValue || motR.HasValue)
+			{
+				UpdateMotors(clientIdentifier, motL ?? 0.5f, motR ?? 0.5f);
+			}
+			
+			else if (gunTrig.HasValue)
+			{
+				ClientShipSetGunTrig(clientIdentifier, gunTrig ?? 0f);
+			}
+		}
 		return response;
 	}
 
@@ -216,6 +219,7 @@ public class CommandHandler : ICommandHandler
 	{
 		if (_clientSpaceships.ContainsKey(clientIdentifier))
 		{
+			GD.Print($"passed in shipSetGunTrig");
 			var playerInfo = _clientSpaceships[clientIdentifier];
 			playerInfo.Spaceship.Call("setGunTrig", gunTrig);
 			GD.Print($"Spaceship of client {clientIdentifier} shooted");

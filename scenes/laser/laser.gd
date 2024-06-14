@@ -1,7 +1,7 @@
 extends RigidBody2D
 class_name Laser
 
-const IMPULSE_STRENGTH = 10
+const IMPULSE_STRENGTH = 20
 var angle : float
 @onready var audio_laser = $laser_sfx
 
@@ -11,6 +11,7 @@ func _ready():
 	angle = get_parent().rotation
 	
 func _physics_process(delta):
+	print(angle)
 	apply_central_impulse(Vector2(cos(angle), sin(angle)) * IMPULSE_STRENGTH)
 
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=215 format=3 uid="uid://fbsl0pbgphwi"]
+[gd_scene load_steps=216 format=3 uid="uid://fbsl0pbgphwi"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_0t2dv"]
 [ext_resource type="Texture2D" uid="uid://cihdmld0b1xcs" path="res://assets/sprites/space_background/Backgrounds/PNGs/Condesed/Starry background  - Layer 01 - Void.png" id="1_buucg"]
 [ext_resource type="Texture2D" uid="uid://usdj5ugucq4j" path="res://assets/sprites/space_background/Planets/PNGs/Earth-Like planet - Without back glow.png" id="2_gfphk"]
+[ext_resource type="PackedScene" uid="uid://64hmhe7y01m4" path="res://scenes/game/Game.tscn" id="2_jhd8k"]
 [ext_resource type="Texture2D" uid="uid://bq7uh3drsgbnn" path="res://assets/sprites/space_background/Backgrounds/PNGs/Condesed/Starry background  - Layer 02 - Stars.png" id="3_uu6y3"]
 [ext_resource type="Texture2D" uid="uid://dndff54nqxyw" path="res://assets/sprites/space_background/Backgrounds/PNGs/Condesed/Starry background  - Layer 03 - Stars.png" id="4_q8fwv"]
 [ext_resource type="FontFile" uid="uid://bi140p1uif1p1" path="res://assets/fonts/space-vagrant.otf" id="5_hohat"]
@@ -1474,6 +1475,7 @@ animations = [{
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_0t2dv")
+game_scene = ExtResource("2_jhd8k")
 
 [node name="animation" type="Node2D" parent="."]
 

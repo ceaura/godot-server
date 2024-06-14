@@ -6,6 +6,7 @@ var motR = 0.5
 var gunTrig = 0
 var speed = 200
 var rotation_speed = 1
+var can_shoot = true
 
 var message_timer: Timer
 
@@ -13,10 +14,10 @@ var message_timer: Timer
 @onready var player_name = $Name
 @onready var message_label = $Msg
 @onready var marker = $laser
+@onready var shoot_interval_timer = $shoot_interval
 
 #### EXPORT ####
 @export var laser_scene : PackedScene
-
 
 func _ready():
 	set_physics_process(true)
@@ -25,6 +26,12 @@ func _ready():
 	message_timer.connect("timeout", _on_message_timer_timeout)
 	add_child(message_timer)
 
+func _process(delta):
+	if gunTrig > MIN_GUNTRIG_SHOOT_AVAILABLE and can_shoot:
+		shoot()
+		can_shoot = false
+		shoot_interval_timer.start()
+		
 func _physics_process(delta):
 	var mapped_motL = map_motor_value(motL)
 	var mapped_motR = map_motor_value(motR)
@@ -40,10 +47,6 @@ func _physics_process(delta):
 	var direction = Vector2(0, -1).rotated(rotation)
 
 	global_position += direction * thrust * speed * delta
-	
-	if gunTrig > MIN_GUNTRIG_SHOOT_AVAILABLE:
-		print(gunTrig)
-		shoot()
 
 func set_motor_left(value):
 	motL = clamp(value, 0.0, 1.0)
@@ -72,5 +75,8 @@ func shoot():
 
 func setGunTrig(value):
 	gunTrig = value
-	shoot()
 	print("Guntrig = " , str(gunTrig))
+
+
+func _on_shoot_interval_timeout():
+	can_shoot = true

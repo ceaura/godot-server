@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://bd4lf4l8gs3yl"]
 
 [ext_resource type="Script" path="res://scenes/spaceship/Spaceship.gd" id="1_oly0f"]
-[ext_resource type="Texture2D" uid="uid://cucw2163kq8jk" path="res://assets/sprites/spaceship/SVG/Spaceships/01/Spaceship_01_PURPLE.svg" id="2_d5tvq"]
 [ext_resource type="PackedScene" uid="uid://dhcbjklgnorxs" path="res://scenes/laser/laser.tscn" id="2_sp84u"]
+[ext_resource type="Texture2D" uid="uid://b7xeuu8byve7p" path="res://assets/sprites/spaceship/PNG/Spaceships/01/Spaceship_01_BLUE.png" id="3_0gddn"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d47ka"]
 animations = [{
@@ -13,10 +13,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_d5tvq")
+"texture": ExtResource("3_0gddn")
 }],
 "loop": false,
-"name": &"idle_purple",
+"name": &"idle_blue",
 "speed": 5.0
 }]
 
@@ -28,10 +28,10 @@ laser_scene = ExtResource("2_sp84u")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_d47ka")
-animation = &"idle_purple"
+animation = &"idle_blue"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-1, -28, -9, -18, -29, -15, -35, -10, -37, 5, -32, 12, -14, 12, -25, 22, -21, 26, -13, 22, -11, 26, -5, 27, 5, 26, 11, 28, 12, 22, 23, 26, 24, 23, 14, 11, 23, 14, 30, 10, 32, 14, 37, 11, 38, 3, 37, -5, 33, -12, 24, -16, 25, -23, 7, -19, 7, -26)
+polygon = PackedVector2Array(-3, -40, -13, -26, -18, -18, -27, -5, -27, 4, -18, 18, -14, 24, -4, 39, 0, 27, 2, 22, 8, 22, 8, 16, 4, 16, 6, 9, 27, 8, 27, -8, 5, -8, 3, -15, 8, -17, 8, -22, 2, -22)
 
 [node name="Name" type="Label" parent="."]
 offset_left = -25.0
@@ -47,4 +47,9 @@ offset_right = 33.0
 offset_bottom = 57.0
 
 [node name="laser" type="Marker2D" parent="."]
-position = Vector2(0, -32)
+position = Vector2(38, 0)
+
+[node name="shoot_interval" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="timeout" from="shoot_interval" to="." method="_on_shoot_interval_timeout"]

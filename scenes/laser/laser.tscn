@@ -29,6 +29,7 @@ animations = [{
 [node name="Laser" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 7
+gravity_scale = 0.0
 script = ExtResource("1_q2ebp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -36,7 +37,6 @@ position = Vector2(10, 0)
 shape = SubResource("CircleShape2D_s16ag")
 
 [node name="lifespan" type="Timer" parent="."]
-wait_time = 2.0
 one_shot = true
 autostart = true
 
@@ -44,7 +44,7 @@ autostart = true
 stream = ExtResource("2_s2r4r")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_0wifc")
 frame_progress = 0.373288
 
