@@ -1,11 +1,15 @@
 extends Area2D
 
+class_name Spaceship
+
 const MIN_GUNTRIG_SHOOT_AVAILABLE = 0.5
+
 var motL = 0.5
 var motR = 0.5
 var gunTrig = 0
 var speed = 200
 var rotation_speed = 1
+
 var can_shoot = true
 
 var message_timer: Timer
@@ -15,6 +19,7 @@ var message_timer: Timer
 @onready var message_label = $Msg
 @onready var marker = $laser
 @onready var shoot_interval_timer = $shoot_interval
+
 
 #### EXPORT ####
 @export var laser_scene : PackedScene
@@ -27,10 +32,8 @@ func _ready():
 	add_child(message_timer)
 
 func _process(delta):
-	if gunTrig > MIN_GUNTRIG_SHOOT_AVAILABLE and can_shoot:
-		shoot()
-		can_shoot = false
-		shoot_interval_timer.start()
+	# Method call to shoot is it available
+	shoot_if_available()
 		
 func _physics_process(delta):
 	var mapped_motL = map_motor_value(motL)
@@ -68,6 +71,12 @@ func set_message(msg):
 func _on_message_timer_timeout():
 	message_label.hide()
 	
+func shoot_if_available():
+	if gunTrig > MIN_GUNTRIG_SHOOT_AVAILABLE and can_shoot:
+		shoot()
+		can_shoot = false
+		shoot_interval_timer.start
+	
 func shoot():
 	var laser = laser_scene.instantiate()
 	laser.transform = marker.transform
@@ -77,6 +86,8 @@ func setGunTrig(value):
 	gunTrig = value
 	print("Guntrig = " , str(gunTrig))
 
-
 func _on_shoot_interval_timeout():
 	can_shoot = true
+	
+
+

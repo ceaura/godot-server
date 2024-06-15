@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://64hmhe7y01m4"]
+[gd_scene load_steps=41 format=3 uid="uid://64hmhe7y01m4"]
 
 [ext_resource type="Script" path="res://scenes/game/Game.gd" id="1_h4mbu"]
 [ext_resource type="PackedScene" uid="uid://bd4lf4l8gs3yl" path="res://scenes/spaceship/Spaceship.tscn" id="2_bhg4t"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ccyqpm7bwwpie" path="res://scenes/server/Scenes/Server.tscn" id="3_1m5gm"]
 [ext_resource type="Script" path="res://scenes/SignalManager.gd" id="4_1qsiy"]
 [ext_resource type="Texture2D" uid="uid://cihdmld0b1xcs" path="res://assets/sprites/space_background/Backgrounds/PNGs/Condesed/Starry background  - Layer 01 - Void.png" id="5_fcekj"]
+[ext_resource type="PackedScene" uid="uid://brv4guqaw5mby" path="res://scenes/dumb_ia/dumb_ia.tscn" id="7_egs1b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tbjca"]
 atlas = ExtResource("5_fcekj")
@@ -265,3 +266,7 @@ text = "Game Lobby"
 
 [node name="SignalManager" type="Node" parent="."]
 script = ExtResource("4_1qsiy")
+
+[node name="DumbIa" parent="." instance=ExtResource("7_egs1b")]
+visible = false
+position = Vector2(720, 352)

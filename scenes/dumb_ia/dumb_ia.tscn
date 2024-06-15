@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://brv4guqaw5mby"]
+
+[ext_resource type="Script" path="res://scenes/dumb_ia/dumb_ia.gd" id="1_gibrs"]
+[ext_resource type="PackedScene" uid="uid://bd4lf4l8gs3yl" path="res://scenes/spaceship/Spaceship.tscn" id="2_5i8lp"]
+
+[node name="DumbIa" type="Node2D"]
+script = ExtResource("1_gibrs")
+
+[node name="spaceship" parent="." instance=ExtResource("2_5i8lp")]
+
+[node name="value_dumb_ia_interval" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="value_dumb_ia_interval" to="." method="_on_value_dumb_ia_interval_timeout"]
